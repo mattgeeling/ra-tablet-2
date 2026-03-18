@@ -1,0 +1,38 @@
+name: Deploy Tablet 2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Deploy to live server over SFTP
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PASSWORD: ${{ secrets.DEPLOY_PASSWORD }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          lftp -u "$DEPLOY_USER","$DEPLOY_PASSWORD" "sftp://$DEPLOY_HOST" <<EOF
+          set sftp:auto-confirm yes
+          mirror -R --delete --verbose \
+            --exclude-glob .git \
+            --exclude-glob .github \
+            --exclude-glob .gitignore \
+            --exclude-glob .DS_Store \
+            --exclude-glob README.md \
+            . "$DEPLOY_PATH"
+          bye
+          EOF

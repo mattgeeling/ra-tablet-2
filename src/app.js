@@ -56,7 +56,7 @@ const portraits = [
   {
     sectionId: "memories",
     title: "150 Memories",
-    artist: "David Martin\n (b. 1975)2023",
+    artist: "David Martin\n (b. 1975) 2023",
     summary:
       "Go behind the scenes with artist David Martin and learn more about the creation of 150 Memories, celebrating the 150th Open at St Andrews in 2022.",
     body:

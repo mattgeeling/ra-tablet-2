@@ -1,3 +1,63 @@
+@font-face {
+  font-family: "Radikal";
+  src:
+    url("./assets/fonts/Radikal-Regular.woff2") format("woff2"),
+    url("./assets/fonts/Radikal-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Radikal";
+  src:
+    url("./assets/fonts/Radikal-RegularItalic.woff2") format("woff2"),
+    url("./assets/fonts/Radikal-RegularItalic.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Radikal";
+  src:
+    url("./assets/fonts/Radikal-Medium.woff2") format("woff2"),
+    url("./assets/fonts/Radikal-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Radikal";
+  src:
+    url("./assets/fonts/Radikal-MediumItalic.woff2") format("woff2"),
+    url("./assets/fonts/Radikal-MediumItalic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Radikal";
+  src:
+    url("./assets/fonts/Radikal-Bold.woff2") format("woff2"),
+    url("./assets/fonts/Radikal-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Radikal";
+  src:
+    url("./assets/fonts/Radikal-BoldItalic.woff2") format("woff2"),
+    url("./assets/fonts/Radikal-BoldItalic.woff") format("woff");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
   --unnamed-color-707070: #707070;
   --unnamed-color-ffffff: #ffffff;
@@ -24,7 +84,7 @@ body {
 body {
   min-height: 100vh;
   background: var(--page-bg);
-  font-family: Montserrat, Avenir, "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Radikal", Avenir, "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 button {
@@ -349,6 +409,7 @@ img {
 }
 
 .portrait-image-preview {
+  display: none;
   position: absolute;
   top: 18px;
   right: 18px;
@@ -482,7 +543,7 @@ img {
   width: 193px;
   background: var(--panel-cyan);
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 .portrait-control-text {
@@ -511,6 +572,110 @@ img {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+}
+
+.screen-portrait.has-stacked-image-layout .portrait-artwork-wrap {
+  top: 54px;
+  left: 50%;
+  right: auto;
+  width: 860px;
+  height: var(--stacked-artwork-height, 360px);
+  padding: 0;
+  background: transparent;
+  transform: translateX(-50%);
+}
+
+.screen-portrait.has-stacked-image-layout .portrait-artwork {
+  background-size: contain;
+  background-position: center center;
+  background-color: transparent;
+}
+
+.screen-portrait.has-stacked-image-layout.has-fill-artwork .portrait-artwork {
+  background-size: cover;
+}
+
+.screen-portrait.has-stacked-image-layout .portrait-copy {
+  top: var(--stacked-copy-top, 452px);
+  left: 110px;
+  width: 860px;
+  height: var(--stacked-copy-height, 250px);
+  display: block;
+}
+
+.screen-portrait.has-stacked-image-layout .portrait-text-flow {
+  width: 100%;
+  max-width: 100%;
+  padding-right: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.screen-portrait.has-stacked-image-layout .portrait-controls {
+  position: absolute;
+  right: 0;
+  bottom: var(--stacked-controls-bottom, 0);
+  gap: 22px;
+  margin-top: 0;
+}
+
+.screen-portrait.has-stacked-image-layout.has-overlay-controls .portrait-controls {
+  right: 110px;
+  top: var(--stacked-controls-top, 728px);
+  bottom: auto;
+}
+
+.screen-portrait.has-stacked-image-layout .portrait-control-back {
+  background: var(--panel-cyan);
+}
+
+.screen-portrait.has-stacked-image-layout .portrait-control-text {
+  width: 84px;
+}
+
+.screen-portrait.has-stacked-image-layout .portrait-title {
+  margin-bottom: 12px;
+}
+
+.screen-portrait.has-stacked-image-layout .portrait-artist {
+  margin-bottom: 18px;
+}
+
+.screen-portrait.has-stacked-image-layout .portrait-summary {
+  margin-bottom: 16px;
+}
+
+.screen-portrait.has-stacked-image-layout.is-large-text .portrait-copy {
+  left: 110px;
+  width: 860px;
+}
+
+.screen-portrait.has-stacked-image-layout.is-large-text .portrait-text-flow {
+  width: 100%;
+  max-width: 100%;
+  padding-right: 0;
+}
+
+.screen-portrait.has-stacked-image-layout .portrait-next,
+.screen-portrait.has-stacked-image-layout .portrait-prev {
+  top: var(--stacked-artwork-midpoint, 234px);
+}
+
+.screen-portrait.has-stacked-image-layout.has-static-text-layout .portrait-copy {
+  height: 294px;
+}
+
+.screen-portrait.has-stacked-image-layout.has-static-text-layout .portrait-text-flow {
+  overflow: visible;
+}
+
+.screen-portrait.has-stacked-image-layout.has-static-text-layout .portrait-scroll-cue {
+  display: none !important;
+}
+
+.screen-portrait.has-stacked-image-layout.has-static-text-layout .portrait-text-flow::before,
+.screen-portrait.has-stacked-image-layout.has-static-text-layout .portrait-text-flow::after {
+  display: none;
 }
 
 .artwork-reference {
@@ -1272,11 +1437,6 @@ img {
 
 .screen-portrait.is-large-text .portrait-text-flow {
   padding-right: 20px;
-}
-
-.screen-portrait.is-large-text .portrait-artwork-wrap {
-  right: 54px;
-  width: 468px;
 }
 
 @keyframes back-in {

@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>R&amp;A Interactive Preview</title>
     <style>
+      @font-face {
+        font-family: "Radikal";
+        src:
+          url("./assets/fonts/Radikal-Regular.woff2") format("woff2"),
+          url("./assets/fonts/Radikal-Regular.woff") format("woff");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "Radikal";
+        src:
+          url("./assets/fonts/Radikal-Bold.woff2") format("woff2"),
+          url("./assets/fonts/Radikal-Bold.woff") format("woff");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
       :root {
         color-scheme: light;
       }
@@ -27,13 +47,13 @@
         background:
           radial-gradient(circle at top, rgba(255, 255, 255, 0.96), rgba(235, 238, 245, 0.92) 55%, rgba(222, 226, 236, 0.9)),
           #eef1f7;
-        font-family: Montserrat, Avenir, "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: "Radikal", Avenir, "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
       }
 
       .preview-shell {
         display: grid;
         justify-items: center;
-        gap: 28px;
+        gap: 24px;
       }
 
       .preview-label {
@@ -42,6 +62,15 @@
         font-size: 19px;
         font-weight: 600;
         letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .preview-label-sub {
+        margin: -2px 0 12px;
+        color: #7d86a2;
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
       }
 
@@ -67,6 +96,7 @@
   <body>
     <main class="preview-shell">
       <p class="preview-label">Client Preview • Fixed 1080 × 810</p>
+      <p class="preview-label-sub">Client Amends 23-3-26</p>
       <div class="tablet-frame">
         <iframe class="tablet-stage" src="./index.html" title="R&amp;A tablet preview"></iframe>
       </div>

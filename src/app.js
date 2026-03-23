@@ -50,13 +50,13 @@ const videoLightboxPlayer = document.querySelector("#video-lightbox-player");
 const imageLightbox = document.querySelector("#image-lightbox");
 const imageLightboxClose = document.querySelector("#image-lightbox-close");
 const imageLightboxPreview = document.querySelector("#image-lightbox-preview");
-const IDLE_TIMEOUT_MS = 90000;
+const IDLE_TIMEOUT_MS = 180000;
 
 const portraits = [
   {
     sectionId: "memories",
     title: "150 Memories",
-    artist: "by David Martin (b. 1975)\n2023",
+    artist: "David Martin\n (b. 1975)2023",
     summary:
       "Go behind the scenes with artist David Martin and learn more about the creation of 150 Memories, celebrating the 150th Open at St Andrews in 2022.",
     body:
@@ -66,7 +66,6 @@ const portraits = [
       "./assets/images/paintings/13-studio-1.jpg",
       "./assets/images/paintings/13-studio-2.jpg",
       "./assets/images/paintings/13-studio-3.jpg",
-      "./assets/images/paintings/13-studio-4.jpg",
     ],
     autoRotateInterval: 2500,
     showImageDots: false,
@@ -77,11 +76,16 @@ const portraits = [
     title: "Museum Extension Project",
     artist: "Richard Murphy Architects\n2015",
     summary:
-      "Between 2014 and 2015 a rooftop cafe was built on the roof of the Museum, designed by Richard Murphy Architects, opening just before the 144th Open at St Andrews.",
+      "Between 2014 and 2015 a cafe - designed by Richard Murphy Architects - was built on the roof of the Museum, opening in time for The 144th Open at St Andrews in 2015.",
     body:
-      "The cafe, designed with most seats facing west towards the beach and Old Course, now operates as a restaurant.\n\nRichard Murphy (b. 1955) founded his architectural practice in 1991 and was elected to the Royal Scottish Academy in 2005.",
+      "The cafe, designed with most seats facing west towards the beach and Old Course, now operates as a restaurant.",
     artworkClass: "artwork-image artwork-2",
-    artworkImages: ["./assets/images/BGM-A1~1-1.png"],
+    artworkImages: ["./assets/images/page-30.png"],
+    layout: "stacked-image",
+    artworkFit: "cover",
+    artworkSize: "cover",
+    disableTextOverflow: true,
+    controlsBottom: -56,
     showImageDots: false,
   },
   {
@@ -89,9 +93,15 @@ const portraits = [
     title: "Museum Extension Project",
     artist: "Richard Murphy Architects\n2015",
     summary: "",
-    body: "The original Museum rooftop (above), and the cafe extension (below).",
+    body: "The original Museum rooftop (above), and the cafe\nextension (below).",
     artworkClass: "artwork-image artwork-2",
     artworkImages: ["./assets/images/BRITIS~1-4_4.png"],
+    layout: "stacked-image",
+    artworkFit: "cover",
+    artworkSize: "100% auto",
+    artworkPosition: "center top",
+    artworkHeight: 468,
+    controlsBottom: 24,
     showImageDots: false,
   },
   {
@@ -99,9 +109,16 @@ const portraits = [
     title: "Museum Extension Project",
     artist: "Richard Murphy Architects\n2015",
     summary: "",
-    body: "View of the cafe and changes to the outside of the building, from Golf Place.",
+    body: "View of the cafe and changes to the outside of the building,\nfrom Golf Place.",
+    largeTextBody: "View of the cafe and changes to the outside of the\nbuilding, from Golf Place.",
     artworkClass: "artwork-image artwork-2",
     artworkImages: ["./assets/images/BRITIS~1-5_5.png"],
+    layout: "stacked-image",
+    artworkFit: "cover",
+    artworkSize: "100% auto",
+    artworkPosition: "center top",
+    artworkHeight: 432,
+    controlsBottom: 24,
     showImageDots: false,
   },
   {
@@ -112,6 +129,12 @@ const portraits = [
     body: "Digital drawing of the cafe, from Golf Place.",
     artworkClass: "artwork-image artwork-2",
     artworkImages: ["./assets/images/OCTOBE~1-23_23.png"],
+    layout: "stacked-image",
+    artworkFit: "cover",
+    artworkSize: "100% auto",
+    artworkPosition: "center top",
+    artworkHeight: 439,
+    controlsBottom: 24,
     showImageDots: false,
   },
   {
@@ -119,9 +142,16 @@ const portraits = [
     title: "Museum Extension Project",
     artist: "Richard Murphy Architects\n2015",
     summary: "",
-    body: "Digital drawing of the Museum building with the rooftop cafe (right), from Bruce Embankment Car Park.",
+    body: "Digital drawing of the Museum building with the rooftop cafe\n(right), from Bruce Embankment Car Park.",
+    largeTextBody: "Digital drawing of the Museum building with the rooftop\ncafe (right), from Bruce Embankment Car Park.",
     artworkClass: "artwork-image artwork-2",
     artworkImages: ["./assets/images/OCTOBE~1-24.png"],
+    layout: "stacked-image",
+    artworkFit: "cover",
+    artworkSize: "100% auto",
+    artworkPosition: "center top",
+    artworkHeight: 439,
+    controlsBottom: 24,
     showImageDots: false,
   },
 ];
@@ -327,12 +357,39 @@ function renderPortrait(index, options = {}) {
   const savedScrollTop = preserveScroll ? portraitTextFlow.scrollTop : 0;
 
   stopPortraitAutoRotate();
+  if (portrait.layout === "stacked-image") {
+    const stackedCopyGap = 10;
+    const stackedCopyBottomGap = 54;
+    const artworkHeight = portrait.artworkHeight ?? 360;
+    const copyTop = portrait.copyTop ?? 54 + artworkHeight + stackedCopyGap;
+    const copyHeight = Math.max(120, 810 - copyTop - stackedCopyBottomGap);
+    portraitScreen.style.setProperty("--stacked-artwork-height", `${artworkHeight}px`);
+    portraitScreen.style.setProperty("--stacked-artwork-midpoint", `${54 + artworkHeight / 2}px`);
+    portraitScreen.style.setProperty("--stacked-copy-top", `${copyTop}px`);
+    portraitScreen.style.setProperty("--stacked-copy-height", `${copyHeight}px`);
+    portraitScreen.style.setProperty("--stacked-controls-bottom", `${portrait.controlsBottom ?? -54}px`);
+    portraitScreen.style.setProperty("--stacked-controls-top", `${portrait.controlsTop ?? 0}px`);
+  } else {
+    portraitScreen.style.removeProperty("--stacked-artwork-height");
+    portraitScreen.style.removeProperty("--stacked-artwork-midpoint");
+    portraitScreen.style.removeProperty("--stacked-copy-top");
+    portraitScreen.style.removeProperty("--stacked-copy-height");
+    portraitScreen.style.removeProperty("--stacked-controls-bottom");
+    portraitScreen.style.removeProperty("--stacked-controls-top");
+  }
   portraitTitle.innerHTML = portrait.title.replaceAll("\n", "<br>");
   portraitArtist.innerHTML = portrait.artist.replaceAll("\n", "<br>");
   portraitSummary.innerHTML = portrait.summary.replaceAll("\n", "<br>");
-  portraitBody.innerHTML = portrait.body.replaceAll("\n", "<br>");
+  const portraitBodyText = isLargeText && portrait.largeTextBody ? portrait.largeTextBody : portrait.body;
+  portraitBody.innerHTML = portraitBodyText.replaceAll("\n", "<br>");
   portraitArtwork.className = `portrait-artwork ${portrait.artworkClass}`;
   portraitArtwork.style.backgroundImage = encodedArtworkImage ? `url("${encodedArtworkImage}")` : "";
+  portraitArtwork.style.backgroundSize = portrait.artworkSize ?? "";
+  portraitArtwork.style.backgroundPosition = portrait.artworkPosition ?? "";
+  portraitScreen.classList.toggle("has-stacked-image-layout", portrait.layout === "stacked-image");
+  portraitScreen.classList.toggle("has-fill-artwork", portrait.artworkFit === "cover");
+  portraitScreen.classList.toggle("has-overlay-controls", portrait.overlayControls === true);
+  portraitScreen.classList.toggle("has-static-text-layout", portrait.disableTextOverflow === true);
   portraitArtwork.classList.toggle("is-toggleable", artworkImages.length > 1);
   renderPortraitImageDots(portrait);
   portraitVideoTrigger.classList.toggle("is-visible", portrait.hasVideo === true);
@@ -384,6 +441,12 @@ function toggleLargeText() {
 }
 
 function updatePortraitOverflow() {
+  if (portraitScreen.classList.contains("has-static-text-layout")) {
+    portraitTextFlow.classList.remove("has-overflow", "is-at-start", "is-at-end");
+    portraitCopy.classList.remove("has-overflow", "is-at-end");
+    return;
+  }
+
   window.requestAnimationFrame(() => {
     const maxScrollTop = portraitTextFlow.scrollHeight - portraitTextFlow.clientHeight;
     const hasOverflow = maxScrollTop > 2;

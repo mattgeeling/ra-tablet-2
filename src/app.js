@@ -142,7 +142,7 @@ const portraits = [
     title: "Museum Extension Project",
     artist: "Richard Murphy Architects\n2015",
     summary: "",
-    body: "Digital drawing of the Museum building with the rooftop cafe\n(right), from Bruce Embankment Car Park.",
+    body: "Digital drawing of the Museum building with the\nrooftop cafe (right), from Bruce Embankment Car Park.",
     largeTextBody: "Digital drawing of the Museum building with the rooftop\ncafe (right), from Bruce Embankment Car Park.",
     artworkClass: "artwork-image artwork-2",
     artworkImages: ["./assets/images/OCTOBE~1-24.png"],

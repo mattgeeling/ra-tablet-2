@@ -614,7 +614,7 @@ img {
 .screen-portrait.has-stacked-image-layout .portrait-controls {
   position: absolute;
   right: 0;
-  bottom: var(--stacked-controls-bottom, 0);
+  bottom: calc(var(--stacked-controls-bottom, 0) - 5px);
   gap: 22px;
   margin-top: 0;
 }

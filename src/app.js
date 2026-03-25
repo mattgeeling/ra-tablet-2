@@ -1,5 +1,6 @@
 const attractorScreen = document.querySelector("#attractor-screen");
 const attractorStartButton = document.querySelector("#attractor-start");
+const attractorVideo = document.querySelector("#attractor-video");
 const menuScreen = document.querySelector("#menu-screen");
 const portraitScreen = document.querySelector("#portrait-screen");
 const landscapeScreen = document.querySelector("#landscape-screen");
@@ -20,6 +21,7 @@ const sculptureBackButton = document.querySelector("#sculpture-back");
 const sculptureTextButton = document.querySelector(".sculpture-control-text");
 const sculpturePrevButton = document.querySelector("#sculpture-prev");
 const sculptureNextButton = document.querySelector("#sculpture-next");
+const menuPanels = Array.from(document.querySelectorAll(".menu-panel"));
 
 const portraitTitle = document.querySelector("#portrait-title");
 const portraitArtist = document.querySelector("#portrait-artist");
@@ -31,6 +33,7 @@ const portraitImageDots = document.querySelector("#portrait-image-dots");
 const portraitImagePreview = document.querySelector("#portrait-image-preview");
 const portraitCopy = document.querySelector(".portrait-copy");
 const portraitTextFlow = document.querySelector(".portrait-text-flow");
+const portraitScrollCue = document.querySelector("#portrait-scroll-cue");
 const portraitVideoTrigger = document.querySelector("#portrait-video-trigger");
 const landscapeArtwork = document.querySelector("#landscape-artwork");
 const landscapeArtworkWrap = document.querySelector(".landscape-artwork-wrap");
@@ -55,12 +58,13 @@ const IDLE_TIMEOUT_MS = 180000;
 const portraits = [
   {
     sectionId: "memories",
-    title: "150 Memories",
-    artist: "David Martin\n (b. 1975) 2023",
+    title: "David Martin",
+    artist: "<em>150 Memories</em>\n<span class=\"portrait-year\">2023</span>",
+    useStackedHeading: true,
     summary:
-      "Go behind the scenes with artist David Martin and learn more about the creation of 150 Memories, celebrating the 150th Open at St Andrews in 2022.",
+      "Get behind the scenes with artist David Martin to learn about the creation of 150 Memories, celebrating The 150th Open at St Andrews in 2022.",
     body:
-      "David Martin Interview\n[runtime 2:52]",
+      "David Martin Interview\n[runtime 3 mins]",
     artworkClass: "artwork-image artwork-1",
     artworkImages: [
       "./assets/images/paintings/13-studio-1.jpg",
@@ -68,32 +72,37 @@ const portraits = [
       "./assets/images/paintings/13-studio-3.jpg",
     ],
     autoRotateInterval: 2500,
+    largeTextHideScrollCue: true,
+    largeTextContentOffset: -20,
     showImageDots: false,
     hasVideo: true,
   },
   {
     sectionId: "museum-extension",
-    title: "Museum Extension Project",
-    artist: "Richard Murphy Architects\n2015",
+    title: "Richard Murphy Architects",
+    artist: "<em>Museum Extension Project</em>\n<span class=\"portrait-year\">2015</span>",
+    useStackedHeading: true,
     summary:
-      "Between 2014 and 2015 a cafe - designed by Richard Murphy Architects - was built on the roof of the Museum, opening in time for The 144th Open at St Andrews in 2015.",
+      "<span style=\"font-size: 23px; line-height: 27px; display: block;\">In 2013 Richard Murphy Architects was commissioned to design a rooftop extension for the original 1990 Museum building. The new cafe, reception and gallery entrance opened in 2015, ready for The 144th Open.</span>",
     body:
-      "The cafe, designed with most seats facing west towards the beach and Old Course, now operates as a restaurant.",
+      "<span style=\"font-size: 23px; line-height: 27px; display: block;\">Richard Murphy RSA joined the Royal Scottish Academy as an Associate Member in 1998, becoming a full Academician in 2005.</span>\n\n<span style=\"font-size: 23px; line-height: 27px; display: block;\">Murphy's aim is \"to create architecture that is equally of its place and of its time.\" This was particularly important for the Museum, situated alongside the iconic Royal and Ancient Clubhouse and prominent from The Scores and Golf Place.</span>",
     artworkClass: "artwork-image artwork-2",
     artworkImages: ["./assets/images/page-30.png"],
     layout: "stacked-image",
     artworkFit: "cover",
     artworkSize: "cover",
-    disableTextOverflow: true,
+    copyHeight: 270,
     controlsBottom: -61,
     showImageDots: false,
   },
   {
     sectionId: "museum-extension",
-    title: "Museum Extension Project",
-    artist: "Richard Murphy Architects\n2015",
+    title: "Richard Murphy Architects",
+    artist: "<em>Museum Extension Project</em>\n<span class=\"portrait-year\">2015</span>",
+    useStackedHeading: true,
     summary: "",
-    body: "The original Museum rooftop (above), and the cafe\nextension (below).",
+    body: "The original Museum rooftop terrace (above), and the\nproposed ground and first floor extension (below).",
+    largeTextBody: "The original Museum rooftop terrace (above), and the\nproposed ground and first floor extension (below).",
     artworkClass: "artwork-image artwork-2",
     artworkImages: ["./assets/images/BRITIS~1-4_4.png"],
     layout: "stacked-image",
@@ -101,16 +110,17 @@ const portraits = [
     artworkSize: "100% auto",
     artworkPosition: "center top",
     artworkHeight: 468,
-    controlsBottom: 24,
+    controlsBottom: 14,
     showImageDots: false,
   },
   {
     sectionId: "museum-extension",
-    title: "Museum Extension Project",
-    artist: "Richard Murphy Architects\n2015",
+    title: "Richard Murphy Architects",
+    artist: "<em>Museum Extension Project</em>\n<span class=\"portrait-year\">2015</span>",
+    useStackedHeading: true,
     summary: "",
-    body: "View of the cafe and changes to the outside of the building,\nfrom Golf Place.",
-    largeTextBody: "View of the cafe and changes to the outside of\nthe building, from Golf Place.",
+    body: "On this concept drawing of the proposed extension,\na new entrance is imagined to the north of the building.",
+    largeTextBody: "On this concept drawing of the proposed extension,\na new entrance is imagined to the north\nof the building.",
     artworkClass: "artwork-image artwork-2",
     artworkImages: ["./assets/images/BRITIS~1-5_5.png"],
     layout: "stacked-image",
@@ -123,10 +133,11 @@ const portraits = [
   },
   {
     sectionId: "museum-extension",
-    title: "Museum Extension Project",
-    artist: "Richard Murphy Architects\n2015",
+    title: "Richard Murphy Architects",
+    artist: "<em>Museum Extension Project</em>\n<span class=\"portrait-year\">2015</span>",
+    useStackedHeading: true,
     summary: "",
-    body: "Digital drawing of the cafe, from Golf Place.",
+    body: "Proposed west elevation.",
     artworkClass: "artwork-image artwork-2",
     artworkImages: ["./assets/images/OCTOBE~1-23_23.png"],
     layout: "stacked-image",
@@ -134,16 +145,17 @@ const portraits = [
     artworkSize: "100% auto",
     artworkPosition: "center top",
     artworkHeight: 439,
-    controlsBottom: 24,
+    controlsBottom: 14,
     showImageDots: false,
   },
   {
     sectionId: "museum-extension",
-    title: "Museum Extension Project",
-    artist: "Richard Murphy Architects\n2015",
+    title: "Richard Murphy Architects",
+    artist: "<em>Museum Extension Project</em>\n<span class=\"portrait-year\">2015</span>",
+    useStackedHeading: true,
     summary: "",
-    body: "Digital drawing of the Museum building with the\nrooftop cafe (right), from Bruce Embankment Car Park.",
-    largeTextBody: "Digital drawing of the Museum building with the\nrooftop cafe (right), from Bruce Embankment\nCar Park.",
+    body: "Proposed north elevation from the Bruce Embankment car park.",
+    largeTextBody: "Proposed north elevation from the Bruce\nEmbankment car park.",
     artworkClass: "artwork-image artwork-2",
     artworkImages: ["./assets/images/OCTOBE~1-24.png"],
     layout: "stacked-image",
@@ -151,7 +163,29 @@ const portraits = [
     artworkSize: "100% auto",
     artworkPosition: "center top",
     artworkHeight: 439,
-    controlsBottom: 24,
+    controlsBottom: 14,
+    showImageDots: false,
+  },
+  {
+    sectionId: "museum-extension",
+    title: "Richard Murphy Architects",
+    artist: "<em>Museum Extension Project</em>\n<span class=\"portrait-year\">2015</span>",
+    useStackedHeading: true,
+    summary: "",
+    body: "The original exterior of the Museum in 1990 and in 2015\nfollowing the completion of the project.",
+    largeTextBody: "The original exterior of the Museum in 1990 and in 2015\nfollowing the completion of the project.",
+    artworkClass: "artwork-image artwork-2",
+    artworkImages: [
+      "./assets/images/musuem_1990.png",
+      "./assets/images/musuem_2015.png",
+    ],
+    autoRotateInterval: 5000,
+    layout: "stacked-image",
+    artworkFit: "cover",
+    artworkSize: "cover",
+    artworkPosition: "center center",
+    artworkHeight: 439,
+    controlsBottom: 19,
     showImageDots: false,
   },
 ];
@@ -275,11 +309,13 @@ function showMenu() {
   stopPortraitAutoRotate();
   closeVideoLightbox();
   closeImageLightbox();
+  attractorVideo?.pause();
   attractorScreen.classList.add("is-hidden");
   menuScreen.classList.remove("is-hidden");
   portraitScreen.classList.add("is-hidden");
   landscapeScreen.classList.add("is-hidden");
   sculptureScreen.classList.add("is-hidden");
+  ensureMenuPanelsVisible();
 }
 
 function showAttractor() {
@@ -301,11 +337,31 @@ function showAttractor() {
   landscapeTextButton.setAttribute("aria-pressed", "false");
   sculptureTextButton.setAttribute("aria-pressed", "false");
   portraitTextFlow.scrollTop = 0;
+  portraitTextFlow.classList.add("show-initial-gradient");
   attractorScreen.classList.remove("is-hidden");
   menuScreen.classList.add("is-hidden");
   portraitScreen.classList.add("is-hidden");
   landscapeScreen.classList.add("is-hidden");
   sculptureScreen.classList.add("is-hidden");
+  ensureAttractorVideoPlayback();
+}
+
+function ensureAttractorVideoPlayback() {
+  if (!attractorVideo) {
+    return;
+  }
+
+  attractorVideo.muted = true;
+  attractorVideo.defaultMuted = true;
+  attractorVideo.playsInline = true;
+  void attractorVideo.play().catch(() => {});
+}
+
+function ensureMenuPanelsVisible() {
+  menuPanels.forEach((panel) => {
+    panel.style.opacity = "1";
+    panel.style.transform = "translateX(0) scale(1)";
+  });
 }
 
 function showPortraits() {
@@ -362,7 +418,7 @@ function renderPortrait(index, options = {}) {
     const stackedCopyBottomGap = 54;
     const artworkHeight = portrait.artworkHeight ?? 360;
     const copyTop = portrait.copyTop ?? 54 + artworkHeight + stackedCopyGap;
-    const copyHeight = Math.max(120, 810 - copyTop - stackedCopyBottomGap);
+    const copyHeight = portrait.copyHeight ?? Math.max(120, 810 - copyTop - stackedCopyBottomGap);
     portraitScreen.style.setProperty("--stacked-artwork-height", `${artworkHeight}px`);
     portraitScreen.style.setProperty("--stacked-artwork-midpoint", `${54 + artworkHeight / 2}px`);
     portraitScreen.style.setProperty("--stacked-copy-top", `${copyTop}px`);
@@ -390,6 +446,10 @@ function renderPortrait(index, options = {}) {
   portraitScreen.classList.toggle("has-fill-artwork", portrait.artworkFit === "cover");
   portraitScreen.classList.toggle("has-overlay-controls", portrait.overlayControls === true);
   portraitScreen.classList.toggle("has-static-text-layout", portrait.disableTextOverflow === true);
+  portraitScreen.classList.toggle("has-stacked-heading", portrait.useStackedHeading === true);
+  portraitScreen.classList.toggle("hide-large-text-scroll-cue", isLargeText && portrait.largeTextHideScrollCue === true);
+  portraitScreen.classList.toggle("has-large-text-content-offset", isLargeText && Number.isFinite(portrait.largeTextContentOffset));
+  portraitScreen.style.setProperty("--large-text-content-offset", `${isLargeText ? portrait.largeTextContentOffset ?? 0 : 0}px`);
   portraitArtwork.classList.toggle("is-toggleable", artworkImages.length > 1);
   renderPortraitImageDots(portrait);
   portraitVideoTrigger.classList.toggle("is-visible", portrait.hasVideo === true);
@@ -402,6 +462,7 @@ function renderPortrait(index, options = {}) {
   portraitPrevButton.setAttribute("aria-disabled", String(index === sectionStartIndex));
   portraitNextButton.setAttribute("aria-disabled", String(index === sectionEndIndex));
   portraitTextFlow.scrollTop = savedScrollTop;
+  portraitTextFlow.classList.toggle("show-initial-gradient", savedScrollTop <= 2);
   updatePortraitOverflow();
   startPortraitAutoRotate(portrait);
 }
@@ -437,28 +498,56 @@ function toggleLargeText() {
   portraitScreen.classList.toggle("is-large-text", isLargeText);
   portraitTextButton.setAttribute("aria-pressed", String(isLargeText));
   portraitTextFlow.scrollTop = 0;
+  portraitTextFlow.classList.add("show-initial-gradient");
   updatePortraitOverflow();
 }
 
 function updatePortraitOverflow() {
   if (portraitScreen.classList.contains("has-static-text-layout")) {
     portraitTextFlow.classList.remove("has-overflow", "is-at-start", "is-at-end");
-    portraitCopy.classList.remove("has-overflow", "is-at-end");
+    portraitCopy.classList.remove("has-overflow", "is-at-start", "is-at-end");
+    portraitScrollCue.hidden = true;
+    portraitScrollCue.disabled = true;
     return;
   }
 
   window.requestAnimationFrame(() => {
     const maxScrollTop = portraitTextFlow.scrollHeight - portraitTextFlow.clientHeight;
     const hasOverflow = maxScrollTop > 2;
+    const bottomCueHideOffset = Math.max(portraitTextFlow.clientHeight * 0.18, 48);
     const isAtStart = portraitTextFlow.scrollTop <= 2;
-    const isAtEnd = !hasOverflow || portraitTextFlow.scrollTop >= maxScrollTop - 2;
+    const isAtEnd = !hasOverflow || portraitTextFlow.scrollTop >= maxScrollTop - bottomCueHideOffset;
 
     portraitTextFlow.classList.toggle("has-overflow", hasOverflow);
     portraitTextFlow.classList.toggle("is-at-start", isAtStart);
     portraitTextFlow.classList.toggle("is-at-end", isAtEnd);
     portraitCopy.classList.toggle("has-overflow", hasOverflow);
+    portraitCopy.classList.toggle("is-at-start", isAtStart);
     portraitCopy.classList.toggle("is-at-end", isAtEnd);
+    portraitScrollCue.hidden = !(hasOverflow && !isAtEnd);
+    portraitScrollCue.disabled = !hasOverflow || isAtEnd;
   });
+}
+
+function scrollPortraitTextForward() {
+  if (portraitScrollCue.disabled) {
+    return;
+  }
+
+  portraitTextFlow.classList.remove("show-initial-gradient");
+  const scrollAmount = Math.max(portraitTextFlow.clientHeight * 0.35, 72);
+  portraitTextFlow.scrollBy({
+    top: scrollAmount,
+    behavior: "smooth",
+  });
+}
+
+function handlePortraitTextFlowScroll() {
+  if (portraitTextFlow.scrollTop > 2) {
+    portraitTextFlow.classList.remove("show-initial-gradient");
+  }
+
+  updatePortraitOverflow();
 }
 
 function togglePortraitArtwork() {
@@ -535,6 +624,7 @@ function stopPortraitAutoRotate() {
 }
 
 function openVideoLightbox() {
+  stopIdleTimeout();
   videoLightbox.classList.remove("is-hidden");
   videoLightbox.hidden = false;
   videoLightbox.setAttribute("aria-hidden", "false");
@@ -547,6 +637,7 @@ function closeVideoLightbox() {
   videoLightbox.hidden = true;
   videoLightbox.setAttribute("aria-hidden", "true");
   videoLightboxPlayer.pause();
+  startIdleTimeout();
 }
 
 function openImageLightbox() {
@@ -572,9 +663,20 @@ function closeImageLightbox() {
   imageLightboxPreview.removeAttribute("src");
 }
 
+function stopIdleTimeout() {
+  if (idleTimeoutTimer === null) {
+    return;
+  }
+
+  window.clearTimeout(idleTimeoutTimer);
+  idleTimeoutTimer = null;
+}
+
 function startIdleTimeout() {
-  if (idleTimeoutTimer !== null) {
-    window.clearTimeout(idleTimeoutTimer);
+  stopIdleTimeout();
+
+  if (!videoLightbox.hidden && !videoLightbox.classList.contains("is-hidden")) {
+    return;
   }
 
   idleTimeoutTimer = window.setTimeout(() => {
@@ -672,7 +774,21 @@ function goToNextSculpture() {
   renderSculpture(currentSculptureIndex);
 }
 
-attractorStartButton.addEventListener("click", showMenu);
+function handleAttractorStart(event) {
+  event.preventDefault();
+  showMenu();
+}
+
+attractorStartButton.addEventListener("click", handleAttractorStart);
+attractorStartButton.addEventListener("pointerup", handleAttractorStart);
+attractorStartButton.addEventListener("touchend", handleAttractorStart, { passive: false });
+attractorVideo?.addEventListener("loadeddata", ensureAttractorVideoPlayback);
+window.addEventListener("pageshow", ensureAttractorVideoPlayback);
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden && !attractorScreen.classList.contains("is-hidden")) {
+    ensureAttractorVideoPlayback();
+  }
+});
 if (portraitsButton) {
   portraitsButton.addEventListener("click", () => {
     currentPortraitIndex = 0;
@@ -700,7 +816,8 @@ portraitTextButton.addEventListener("click", toggleLargeText);
 portraitArtwork.addEventListener("click", togglePortraitArtwork);
 portraitImagePreview.addEventListener("click", openImageLightbox);
 portraitImageDots.addEventListener("click", selectPortraitArtwork);
-portraitTextFlow.addEventListener("scroll", updatePortraitOverflow);
+portraitTextFlow.addEventListener("scroll", handlePortraitTextFlowScroll);
+portraitScrollCue.addEventListener("click", scrollPortraitTextForward);
 portraitVideoTrigger.addEventListener("click", openVideoLightbox);
 landscapeBackButton.addEventListener("click", showMenu);
 landscapePrevPaintingButton.addEventListener("click", goToPreviousLandscapePainting);
@@ -724,6 +841,7 @@ videoLightbox.addEventListener("click", (event) => {
     closeVideoLightbox();
   }
 });
+videoLightboxPlayer.addEventListener("ended", startIdleTimeout);
 imageLightboxClose.addEventListener("click", closeImageLightbox);
 imageLightbox.addEventListener("click", (event) => {
   if (event.target === imageLightbox) {
@@ -743,3 +861,4 @@ window.addEventListener("resize", updatePortraitOverflow);
 });
 
 startIdleTimeout();
+ensureAttractorVideoPlayback();

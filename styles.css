@@ -242,7 +242,7 @@ img {
   scrollbar-color: rgba(94, 196, 225, 0.7) transparent;
 }
 
-.portrait-text-flow.has-overflow:not(.is-at-end)::after {
+.portrait-text-flow.show-initial-gradient.has-overflow.is-at-start:not(.is-at-end)::after {
   content: "";
   position: sticky;
   left: 0;
@@ -261,26 +261,6 @@ img {
   );
 }
 
-.portrait-text-flow.has-overflow:not(.is-at-start)::before {
-  content: "";
-  position: sticky;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  height: 110px;
-  margin-bottom: -110px;
-  pointer-events: none;
-  z-index: 1;
-  background: linear-gradient(
-    to bottom,
-    rgba(25, 30, 66, 1),
-    rgba(25, 30, 66, 0.88) 34%,
-    rgba(25, 30, 66, 0.48) 68%,
-    rgba(25, 30, 66, 0)
-  );
-}
-
 .portrait-text-flow::-webkit-scrollbar {
   width: 6px;
 }
@@ -294,12 +274,13 @@ img {
   display: none;
   position: absolute;
   left: 50%;
-  bottom: 78px;
+  bottom: 20px;
   align-items: center;
   justify-content: center;
   width: 56px;
   height: 56px;
   transform: translateX(-50%);
+  border: 0;
   border-radius: 999px;
   background: radial-gradient(
     circle,
@@ -307,12 +288,21 @@ img {
     rgba(94, 196, 225, 0.1) 58%,
     rgba(94, 196, 225, 0) 100%
   );
-  pointer-events: none;
+  padding: 0;
+  cursor: pointer;
   z-index: 2;
+  -webkit-appearance: none;
+  appearance: none;
+  touch-action: manipulation;
 }
 
 .portrait-copy.has-overflow:not(.is-at-end) .portrait-scroll-cue {
   display: inline-flex;
+}
+
+.portrait-scroll-cue:focus-visible {
+  outline: 3px solid rgba(94, 196, 225, 0.95);
+  outline-offset: 3px;
 }
 
 .portrait-scroll-cue-arrow {
@@ -339,6 +329,23 @@ img {
   font-size: 28px;
   line-height: 35px;
   font-weight: 400;
+}
+
+.portrait-artist .portrait-year {
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.screen-portrait.has-stacked-heading .portrait-title {
+  margin-bottom: 12px;
+}
+
+.screen-portrait.has-stacked-heading .portrait-artist .portrait-year {
+  margin-top: 12px;
 }
 
 .portrait-summary,
@@ -542,8 +549,9 @@ img {
 .portrait-control-back {
   width: 193px;
   background: var(--panel-cyan);
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 600;
+  text-transform: none;
 }
 
 .portrait-control-text {
@@ -600,21 +608,23 @@ img {
   left: 110px;
   width: 860px;
   height: var(--stacked-copy-height, 250px);
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 
 .screen-portrait.has-stacked-image-layout .portrait-text-flow {
   width: 100%;
   max-width: 100%;
   padding-right: 0;
-  height: 100%;
-  overflow: hidden;
+  flex: 1 1 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .screen-portrait.has-stacked-image-layout .portrait-controls {
   position: absolute;
   right: 0;
-  bottom: calc(var(--stacked-controls-bottom, 0) - 5px);
+  bottom: calc(var(--stacked-controls-bottom, 0) - 20px);
   gap: 22px;
   margin-top: 0;
 }
@@ -1151,9 +1161,9 @@ img {
   width: 130px;
   background: var(--unnamed-color-fe5b34);
   color: #1f2248;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 400;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .screen-landscape.is-large-text .landscape-title {
@@ -1238,9 +1248,9 @@ img {
 .sculpture-control-back {
   width: 131px;
   background: var(--unnamed-color-ebe717);
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 400;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .sculpture-control-text {
@@ -1437,6 +1447,17 @@ img {
 
 .screen-portrait.is-large-text .portrait-text-flow {
   padding-right: 20px;
+}
+
+.screen-portrait.is-large-text.hide-large-text-scroll-cue .portrait-scroll-cue {
+  display: none !important;
+}
+
+.screen-portrait.is-large-text.has-large-text-content-offset .portrait-title,
+.screen-portrait.is-large-text.has-large-text-content-offset .portrait-artist,
+.screen-portrait.is-large-text.has-large-text-content-offset .portrait-text-flow {
+  position: relative;
+  top: var(--large-text-content-offset, 0);
 }
 
 @keyframes back-in {
